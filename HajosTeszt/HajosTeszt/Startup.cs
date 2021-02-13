@@ -25,10 +25,22 @@ namespace HajosTeszt
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            
+
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                //await context.Response.WriteAsync("Hello World!");
+
             });
+
+
         }
+
+
     }
 }
