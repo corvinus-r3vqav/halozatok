@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box;
+  }
+
+  html {
+      color: #341185;
+      padding: 0px;
+      margin: 0px;
+      background-color: #cfc6cf
+  }
+
+  body {
+      padding: 0px;
+      margin: 0px;
+      background-color: #cfc6cf;
+      font-family: 'Texturina', serif;
+  }
+
+  h1, h2 {
+    color: #341185;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+h1 {
+    text-align: center;
+}
+
+div {
+    margin: 15px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.lorem {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 20px;
+    color: #8c5cfa;
+}
+
+p {
+    text-indent: 30px;
+}
+
+.rolam {
+    background-color: #bab3ba;
+}
+
+.hobbik {
+    background-color: #341185;
+    color: white;
+}
+
+#hobbi {
+    color: white;
+}
+
+.webfejl {
+    background-color: #ffffff;
+}
+
+a {
+    padding: 15px;
+    border-radius: 20px;
+    background-color: #bab3ba;
+    color: white;
+}
+
+a:hover {
+    background-color: #857f85;
+}
+
+#kedvencek {
+    background-color: #bab3ba;
+}
+
+ul li {
+    list-style-type: square;
+    line-height:1.5em;
+    font-weight:500;
+}
+
+.elsolista {
+    background-color: #cfc6cf;
+    border-radius: 20px;
+    width: 200px;
+}
+
+.masodiklista {
+    background-color: #cfc6cf;
+    font-style: italic;
+    border-radius: 20px;
+    width: 200px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    max-width: 100%;
+    background-color: #8c5cfa;
+    border: 3px solid;
+    border-color: #341185;
+    border-collapse: collapse;
+    text-align: center;            
+}
+
+td {
+    border: 3px solid #341185;
+    padding: 5px;
+    color: #341185;
+    font-style: italic;
+}
+
+.allatok {
+    padding: 0px;
+    border-radius: 0px;
+    background-color: #8c5cfa;
+    color: white;
+}
+
+.allatok:hover {
+    color: #341185;
+    background-color: #ffffff;
+}
+
+caption {
+        caption-side:bottom;
+        font-size: 20px;
+        font-weight:bold;
+        color:#341185;
+        text-align:center;
+        margin-top: 15px;
+}
+
+footer {
+    background-color: #341185;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 20px;
+    letter-spacing: 3px;
+  }
