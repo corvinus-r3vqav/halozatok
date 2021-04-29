@@ -17,12 +17,13 @@ function kérdésMegjelenítés(kérdés) {
     document.getElementById("válasz2").innerText = kérdés.answer2
     document.getElementById("válasz3").innerText = kérdés.answer3
     console.log(kérdés.image)
-    if (kérdés.image!="") {
+    if (kérdés.image) {
         document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
+        document.getElementById("kép1").classList.remove("rejtett")
     }
     else {
        
-        document.getElementById("kép1").style.display = none;
+        document.getElementById("kép").classList.add("rejtett")
     }
     
 
