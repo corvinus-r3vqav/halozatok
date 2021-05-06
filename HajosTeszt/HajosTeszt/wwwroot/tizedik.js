@@ -1,12 +1,12 @@
 ﻿//var kérdések;
 //var jelenlegiKérdés = 1;
 
-//TIZEDIK GYAK
+//TIZEDIK ÉS TIZENEGYEDIK GYAK
 //Az alkalmazás működéséhez szükséges változók
 
 //Array az éppen gyakoroltatott kérdések tárolására
 var hotList = [];
-var questionsInHotList = 3; //Ez majd 7 lesz, teszteléshez jobb a 3. 
+var questionsInHotList = 3; 
 
 //Hol is tartunk a kérdésekben?
 var displayedQuestion;      //A hotList-ből éppen ez a kérdés van kint
@@ -44,9 +44,7 @@ function kérdésMegjelenítés() {
     válasz1.classList.remove("jo", "rossz");
     válasz2.classList.remove("jo", "rossz");
     válasz3.classList.remove("jo", "rossz");
-    document.getElementById("válasz1").style.pointerEvents = "auto"
-    document.getElementById("válasz2").style.pointerEvents = "auto"
-    document.getElementById("válasz3").style.pointerEvents = "auto"
+    document.getElementById("válaszok").style.pointerEvents = "auto";
 }
 
 function kérdésBetöltés(questionNumber, destination) {
@@ -55,6 +53,7 @@ function kérdésBetöltés(questionNumber, destination) {
             result => {
                 if (!result.ok) {
                     console.error(`Hibás letöltés: ${result.status}`)
+                    return null;
                 }
                 else {
                     return result.json()
@@ -65,7 +64,7 @@ function kérdésBetöltés(questionNumber, destination) {
                 hotList[destination].question = q;
                 hotList[destination].goodAnswers = 0;
                 console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
-                if (displayedQuestion == undefined && destination == 0) {
+                if (displayedQuestion === undefined && destination === 0) {
                     displayedQuestion = 0;
                     kérdésMegjelenítés();
                 }
@@ -79,7 +78,7 @@ function kérdésBetöltés(questionNumber, destination) {
 
 function init() {
     console.log("init..." + questionsInHotList)
-    for (var i = 0; i < questionsInHotList; i++) {
+    for (let i = 0; i < questionsInHotList; i++) {
         let q = {
             question: {},
             goodAnswers: 0
@@ -88,65 +87,87 @@ function init() {
     }
 
     //Első kérdések letöltése
-    for (var i = 0; i < questionsInHotList; i++) {
-        kérdésBetöltés(nextQuestion, i);
-        nextQuestion++;
-    }
+    for (let i = 0; i < questionsInHotList; i++) {
+            kérdésBetöltés(nextQuestion, i);
+            nextQuestion++;
+        } 
+
+
+
+    //Kérdések száma
+    fetch("questions/count")
+        .then(result => result.text())
+        .then(n => { numberOfQuestions = parseInt(n) })
+
+    //Mentett állapot olvasása
+    //if (localStorage.getItem("hotList")) {
+    //    hotList = JSON.parse(localStorage.getItem("hotList"));
+    //}
+
+
+    //if (localStorage.getItem("displayedQuestion")) {
+    //    displayedQuestion = parseInt(localStorage.getItem("displayedQuestion"));
+    //}
+
+    //if (localStorage.getItem("nextQuestion")) {
+    //    nextQuestion = parseInt(localStorage.getItem("nextQuestion"));
+    //}
+
+    //Első kérdések letöltése
+    //if (hotList.length === 0) {
+    //    for (let i = 0; i < questionsInHotList; i++) {
+    //        kérdésBetöltés(nextQuestion, i);
+    //        nextQuestion++;
+    //    } 
+    //} else {
+    //    console.log("localStorage-ból olvasott kérdésekkel dolgozunk.");
+    //    kérdésMegjelenítés();
+    //}
+    
+
 }
 
 
 
-function előre() {
-    clearTimeout(timeoutHandler)
-    displayedQuestion++;
-    if (displayedQuestion == questionsInHotList) displayedQuestion = 0;
-    kérdésMegjelenítés()
-}
+
 
 function kattElore() {
+    clearTimeout(timeoutHandler);
     displayedQuestion++;
-    if (displayedQuestion == questionsInHotList) displayedQuestion = 0;
+    if (displayedQuestion === questionsInHotList) displayedQuestion = 0;
     kérdésMegjelenítés()
 }
 
 function kattVissza() {
     displayedQuestion--;
-    if (displayedQuestion == questionsInHotList) displayedQuestion = 0;
+    if (displayedQuestion < 0) displayedQuestion = questionsInHotList-1;
     kérdésMegjelenítés()
 }
 
-function megjelöltVálasz1() {
-    let megjelöltválasz1 = document.getElementById("válasz1");
-    if (jóVálasz == 1) {
-        megjelöltválasz1.classList.add("jo");
+function választás(n) {
+    let kerdes = hotList[displayedQuestion].question;
+    if (n === kerdes.correctAnswer) {
+        document.getElementById("válasz" + n).classList.add("jo");
+        hotList[displayedQuestion].goodAnswers++;
+        if (hotList[displayedQuestion].goodAnswers === 3) {
+            kérdésBetöltés(nextQuestion, displayedQuestion);
+            nextQuestion++;
+        }
+
     }
     else {
-        megjelöltválasz1.classList.add("rossz");
+        document.getElementById("válasz" + n).classList.add("rossz");
+        document.getElementById("válasz" + kerdes.correctAnswer).classList.add("jo");
+        hotList[displayedQuestion].goodAnswers=0;
     }
-    document.getElementById("válasz1").style.pointerEvents = "none"
-    timeoutHandler = setTimeout(előre, 3000);
+
+    document.getElementById("válaszok").style.pointerEvents = "none";
+    timeoutHandler = setTimeout(kattElore, 3000);
+
+    //localStorage.setItem("hotList", JSON.stringify(hotList));
+    //localStorage.setItem("displayedQuestion", displayedQuestion);
+    //localStorage.setItem("nextQuestion", nextQuestion);
 }
 
-function megjelöltVálasz2() {
-    let megjelöltválasz2 = document.getElementById("válasz2");
-    if (jóVálasz == 2) {
-        megjelöltválasz2.classList.add("jo");
-    }
-    else {
-        megjelöltválasz2.classList.add("rossz");
-    }
-    document.getElementById("válasz2").style.pointerEvents = "none"
-    timeoutHandler = setTimeout(előre, 3000);
-}
 
-function megjelöltVálasz3() {
-    let megjelöltválasz3 = document.getElementById("válasz3");
-    if (jóVálasz == 3) {
-        megjelöltválasz3.classList.add("jo");
-    }
-    else {
-        megjelöltválasz3.classList.add("rossz");
-    }
-    document.getElementById("válasz3").style.pointerEvents = "none"
-    timeoutHandler = setTimeout(előre, 3000);
-}
+
